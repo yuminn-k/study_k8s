@@ -1,0 +1,20 @@
+apiVersion: apps/v1 # Kubernetes Deployment yaml. 최신 버전은 Kubernetes Docs에서 확인.
+kind: Deployment # 리소스 종류. 다른 옵션으로는 Service, Job 등이 있음.
+metadata:
+  name: second-app-deployment # Deployment의 이름.
+spec: # Deployment의 구성 방법 정의.
+  replicas: 1 # Pod의 복제본 수. 기본값은 1.
+  selector:
+    matchLabels: # matchExpressions를 사용하여 라벨 선택 가능.
+      # Deployment가 제어할 Pod 라벨의 키-값 쌍을 정의.
+      app: second-app
+      tier: backend
+  template: # Pod의 구성 방법 정의.
+    metadata:
+      labels: # Pod 라벨 정의.
+        app: second-app # "app" 대신 원하는 라벨 키 정의 가능.
+        tier: backend
+    spec: # Pod 구성 방법 정의.
+      containers: # '-'를 통해 여러 컨테이너 설정 가능.
+        - name: second-node # 컨테이너 이름.
+          image: devyuminkim/kub-first-app:2 # 컨테이너 이미지.

@@ -1,0 +1,19 @@
+apiVersion: v1 # Service 리소스의 API 버전.
+kind: Service # 리소스 종류.
+metadata:
+  name: backend # Service의 이름.
+spec:
+  selector: # 이 리소스가 제어하거나 연결해야 하는 다른 리소스를 식별.
+    # Deployment와 다르게 matchLabels는 사용하지 않음.
+    app: second-app
+    tier: backend
+  # Service를 노출하는 방법 정의. 여러 Pod가 있을 때 포트에 맞춰서 정의 가능.
+  ports:
+    - protocol: TCP # 프로토콜 정의. 기본값은 TCP.
+      port: 80 # Service가 노출할 포트.
+      targetPort: 8080 # Service가 제어하는 Pod의 포트.
+    # 추가 포트를 설정하려면 주석을 해제하고 수정.
+    # - protocol: TCP
+    #   port: 443
+    #   targetPort: 443
+  type: LoadBalancer # Service를 노출하는 방법 정의. 기본값은 ClusterIP(내부 IP 노출). NodePort(기본적으로 실행되는 워커 노드의 IP와 포트에 노출), ClusterIP, LoadBalancer(외부 액세스) 중 선택 가능.
